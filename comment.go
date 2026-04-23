@@ -49,6 +49,7 @@ type AuthorInfo struct {
 var v = newv()
 
 var host string = v.GetString("comment.host")
+var allow_origin string = v.GetString("comment.allowOrigin")
 
 func newv() *viper.Viper {
 	codecRegistry := viper.NewCodecRegistry()
@@ -80,6 +81,16 @@ func Handle(s *gin.Engine) {
 			err == http.ErrNoCookie || ctx.Request.Header.Get("Sec-Fetch-Site") == "" {
 			ctx.String(http.StatusForbidden, "浏览器完整性验证未通过")
 			ctx.Abort()
+			return
+		}
+	})
+	s.Use(func(ctx *gin.Context) {
+		ctx.Header("Access-Control-Allow-Origin", allow_origin)
+		ctx.Header("Access-Control-Allow-Methods", "GET,POST,OPTIONS")
+		ctx.Header("Access-Control-Allow-Headers", "Content-Type")
+		ctx.Header("Access-Control-Max-Age", "86400")
+		if ctx.Request.Method == "OPTIONS" {
+			ctx.AbortWithStatus(http.StatusNoContent)
 			return
 		}
 	})
