@@ -87,7 +87,7 @@ func Handle(s *gin.Engine) {
 	s.Use(func(ctx *gin.Context) {
 		ctx.Header("Access-Control-Allow-Origin", allow_origin)
 		ctx.Header("Access-Control-Allow-Methods", "GET,POST,OPTIONS")
-		ctx.Header("Access-Control-Allow-Headers", "Content-Type")
+		ctx.Header("Access-Control-Allow-Headers", "Content-Type,bid")
 		ctx.Header("Access-Control-Max-Age", "86400")
 		if ctx.Request.Method == "OPTIONS" {
 			ctx.AbortWithStatus(http.StatusNoContent)
