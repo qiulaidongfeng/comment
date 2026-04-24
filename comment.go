@@ -75,8 +75,10 @@ func Handle(s *gin.Engine) {
 			return
 		}
 		//TODO:进行更多验证
-		if (ctx.Request.Host != host && ctx.Request.Host != "") || !strings.Contains(ctx.Request.Header.Get("Accept"), "text/html") ||
-			!strings.Contains(ctx.Request.Header.Get("Accept-Encoding"), "gzip") || ctx.Request.Header.Get("Accept-Language") == "" ||
+		if (ctx.Request.Host != host && ctx.Request.Host != "") ||
+			(!strings.Contains(ctx.Request.Header.Get("Accept"), "text/html") && !strings.Contains(ctx.Request.Header.Get("Accept"), "*/*")) ||
+			!strings.Contains(ctx.Request.Header.Get("Accept-Encoding"), "gzip") ||
+			ctx.Request.Header.Get("Accept-Language") == "" ||
 			ctx.Request.Header.Get("Sec-Fetch-Site") == "" {
 			ctx.String(http.StatusForbidden, "浏览器完整性验证未通过")
 			ctx.Abort()
