@@ -86,7 +86,10 @@ func Handle(s *gin.Engine) {
 		}
 	})
 	s.Use(func(ctx *gin.Context) {
-		ctx.Header("Access-Control-Allow-Origin", allow_origin)
+		origin := ctx.GetHeader("Origin")
+		if strings.Contains(allow_origin, origin) {
+			ctx.Header("Access-Control-Allow-Origin", origin)
+		}
 		ctx.Header("Access-Control-Allow-Methods", "GET,POST,OPTIONS")
 		ctx.Header("Access-Control-Allow-Headers", "Content-Type,bid")
 		ctx.Header("Access-Control-Max-Age", "86400")
