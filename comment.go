@@ -242,7 +242,7 @@ func list(ctx *gin.Context) {
 		ctx.String(http.StatusBadRequest, "需要bid")
 		return
 	}
-	err := db.Where("blog_id = ?", bid).Where("status", Active).Find(&comment).Error
+	err := db.Where("blog_id = ?", bid).Where("status", Active).Select("name", "id", "content", "reply_id").Find(&comment).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		panic(err)
 	}
